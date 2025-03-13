@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './styles/App.css';
 import Toolbar from './components/Toolbar';
-import Map from './components/Map';
+import MainPanel from './components/MainPanel';
 import { parse } from 'yaml';
 
 interface ToolbarConfigs {
@@ -37,7 +37,7 @@ const App: React.FC = () => {
       {toolbarConfigs?.LeftToolbar && (
         <Toolbar position="left" config={toolbarConfigs.LeftToolbar} debug={debug} />
       )}
-      <Map debug={debug} />
+      <MainPanel />
       <button
         onClick={() => setDebug(!debug)}
         style={{

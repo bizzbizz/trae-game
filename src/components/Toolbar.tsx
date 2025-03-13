@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { parse, stringify } from 'yaml';
-import './toolbar.css';
+import '../styles/toolbar.css';
 
 interface ToolbarButton {
   type: string;
