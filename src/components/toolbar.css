@@ -1,0 +1,133 @@
+.toolbar {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border-radius: 8px;
+  position: fixed;
+}
+
+.toolbar-list {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.toolbar-item {
+  position: relative;
+  background-color: rgba(248, 248, 248, 0.9);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-debug-label {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0px 0px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: pre;
+  color: black;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-item:hover {
+  background-color: #e8e8e8;
+}
+
+.toolbar-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: scale-down;
+}
+
+.toolbar-top {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toolbar-right {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.toolbar-bottom {
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toolbar-left {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.toolbar-left .toolbar-list {
+  flex-direction: column;
+  align-items: center;
+}
+
+.toolbar-left .toolbar-item {
+  margin: 0.5rem 0;
+  transition: all 0.1s ease;
+}
+
+.toolbar-left .toolbar-item:hover {
+  transform: scale(1.5);
+  background-color: rgba(232, 232, 232, 0.95);
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
+}
+
+.toolbar-top {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.toolbar-right {
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+}
+
+.toolbar-bottom {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+.toolbar-left {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  width: var(--toolbar-width, 100px);
+  margin: 0 -5rem 0 -2rem;
+  align-self: center;
+}
+
+.toolbar-left .toolbar-list {
+  margin: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toolbar-left .toolbar-item {
+    margin: 0 0 0 14px;
+    transition: all 0.1s ease;
+}
+
+.toolbar-left .toolbar-item:hover {
+  transform: scale(1.5);
+  background-color: rgba(232, 232, 232, 0.95);
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
+}

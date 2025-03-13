@@ -1,0 +1,29 @@
+# Polygon definitions for a city block with 100 houses
+# Each polygon represents a house boundary
+# Format: id: [node_ids]
+
+polygons:
+  # House 1 (top-left house)
+  h1: [n1, n2, n3, n4]
+  
+  # House 2
+  h2: [n5, n6, n7, n8]
+  
+  # House 3
+  h3: [n9, n10, n11, n12]
+  
+  # Continue pattern for first row
+  # Each house uses its four corner nodes
+  
+  # Start of second row
+  h11: [n41, n42, n43, n44]
+  
+  # Pattern continues for all houses
+  # Last house (bottom-right)
+  h100: [n397, n398, n399, n400]
+  
+  # Additional metadata
+  properties:
+    house_width: 10
+    house_spacing: 2
+    grid_size: [10, 10]  # 10x10 grid of houses
