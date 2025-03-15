@@ -129,13 +129,34 @@
     </div>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <button class="next-turn-button" id="nextTurnButton">Next<br>Turn</button>
+    <script src="render.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        const renderer = new GameRenderer(canvas);
         const gameStateTree = document.getElementById('gameStateTree');
         let gameState = {};
         let gameMechanics = {};
         let expandedNodes = new Set();
+
+        // Update click handler to use renderer
+        window.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const clickedZone = Object.values(gameState.world.zones).find(zone => 
+                renderer.isPointInZone(x, y, zone)
+            );
+
+            if (clickedZone) {
+                console.log('Clicked zone:', clickedZone.name);
+            }
+        });
+
+        function render() {
+            renderer.render(gameState);
+            requestAnimationFrame(render);
+        }
 
         // Remove unused variables
         // let playerId = null;
@@ -282,11 +303,141 @@
             }
         });
 
-        // Simplify render function to just clear canvas for now
-        function render() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            requestAnimationFrame(render);
+        // Start game loop with the renderer's render function
+        function gameLoop() {
+            renderer.render(gameState);
+            requestAnimationFrame(gameLoop);
         }
+
+        // Initialize the game
+        window.addEventListener('load', async () => {
+            await generateWorld();
+            gameLoop();  // Start the render loop after world is generated
+        });
+
+        function createTreeNode(key, value, path = '') {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = 'tree-node';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'tree-node-content';
+            
+            const isExpandable = typeof value === 'object' && value !== null;
+            const nodePath = path ? `${path}.${key}` : key;
+            
+            const expander = document.createElement('span');
+            expander.className = 'expander';
+            if (isExpandable) {
+                expander.textContent = expandedNodes.has(nodePath) ? '-' : '+';
+            } else {
+                expander.style.visibility = 'hidden';
+            }
+            contentDiv.appendChild(expander);
+            
+            const label = document.createElement('span');
+            label.style.display = "flex"; // Make the children stack vertically
+            label.style.flexDirection = "column"; 
+
+            if (isExpandable && value.name && value.id) {
+                // For items with name and id, create special formatting
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = value.name;
+                
+                const idSpan = document.createElement('span');
+                idSpan.textContent = value.id;
+                idSpan.style.color = '#888';
+                idSpan.style.fontSize = '0.2em';
+                
+                label.appendChild(nameSpan);
+                label.appendChild(idSpan);
+            } else {
+                label.textContent = `${key}: ${isExpandable ? '' : JSON.stringify(value)}`;
+            }
+            contentDiv.appendChild(label);
+            nodeDiv.appendChild(contentDiv);
+            
+            if (isExpandable) {
+                const childrenDiv = document.createElement('div');
+                childrenDiv.className = 'tree-children';
+                childrenDiv.style.display = expandedNodes.has(nodePath) ? 'block' : 'none';
+                
+                Object.entries(value).forEach(([childKey, childValue]) => {
+                    if(childKey !== 'name' && childKey !== 'id') {
+                        childrenDiv.appendChild(createTreeNode(childKey, childValue, nodePath));
+                    }
+                });
+                
+                nodeDiv.appendChild(childrenDiv);
+                
+                contentDiv.addEventListener('click', () => {
+                    const isExpanded = expandedNodes.has(nodePath);
+                    if (isExpanded) {
+                        expandedNodes.delete(nodePath);
+                        expander.textContent = '+';
+                        childrenDiv.style.display = 'none';
+                    } else {
+                        expandedNodes.add(nodePath);
+                        expander.textContent = '-';
+                        childrenDiv.style.display = 'block';
+                    }
+                });
+            }
+            
+            return nodeDiv;
+        }
+
+        function updateGameStateTree(gameState, gameMechanics) {
+            const treeContent = document.getElementById('treeContent');
+            treeContent.innerHTML = '';
+            
+            if (currentTab === 'gameState') {
+                treeContent.appendChild(createTreeNode('gameState', gameState));
+            } else {
+                treeContent.appendChild(createTreeNode('gameMechanics', gameMechanics));
+            }
+        }
+
+        // Add tab click handlers
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                updateGameStateTree(gameState, gameMechanics);
+            });
+        });
+
+        // Remove WebSocket message handler
+        // ws.onmessage = (event) => { ... }
+
+        // Update click handler to only handle canvas rendering
+        window.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Find the zone that contains the clicked coordinates
+            const clickedZone = Object.values(gameState.world.zones).find(zone => 
+                x >= zone.x && x <= zone.x + zone.width &&
+                y >= zone.y && y <= zone.y + zone.height
+            );
+
+            if (clickedZone) {
+                console.log('Clicked zone:', clickedZone.name);
+            }
+        });
+
+        // Update Next Turn button to use HTTP endpoint instead of WebSocket
+        document.getElementById('nextTurnButton').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/next-turn', { method: 'POST' });
+                const updatedState = await response.json();
+                gameState = updatedState;
+                updateGameStateTree(gameState, gameMechanics);
+            } catch (error) {
+                console.error('Failed to process next turn:', error);
+            }
+        });
 
         // Start game loop
         render();

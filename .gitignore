@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 /vendor/
+package-lock.json
 
 # Environment
 .env
@@ -10,6 +11,7 @@ node_modules/
 # Build output
 /dist
 /build
+/bin
 
 # IDE and editor files
 .idea/
@@ -17,6 +19,8 @@ node_modules/
 *.swp
 *.swo
 .DS_Store
+*.sublime-*
+*.code-workspace
 
 # Logs
 logs
@@ -40,6 +44,14 @@ pids
 
 # Go test files
 *.test
+*.tmp
 
 # Go coverage files
 *.out
+coverage.txt
+coverage.html
+
+# Temporary files
+*.tmp
+*~
+._*
