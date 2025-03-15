@@ -1,23 +1,22 @@
 # Dependencies
 node_modules/
+/vendor/
 
-# Build outputs
-dist/
-build/
-
-# Environment files
+# Environment
 .env
 .env.local
 .env.*.local
 
-# Editor directories and files
-.vscode/
+# Build output
+/dist
+/build
+
+# IDE and editor files
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.vscode/
+*.swp
+*.swo
+.DS_Store
 
 # Logs
 logs
@@ -26,10 +25,21 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# System Files
-.DS_Store
-Thumbs.db
-desktop.ini
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# TypeScript
-*.tsbuildinfo
+# Go binary files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test files
+*.test
+
+# Go coverage files
+*.out

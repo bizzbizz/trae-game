@@ -1,1 +1,19 @@
-{"name":"todo-app","private":true,"version":"0.0.0","type":"module","scripts":{"dev":"vite","build":"tsc && vite build","lint":"eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0","preview":"vite preview"},"dependencies":{"@types/node":"^20.8.2","@types/react":"^18.2.25","@types/react-dom":"^18.2.10","@vitejs/plugin-react":"^4.1.0","react":"^18.2.0","react-dom":"^18.2.0","three":"^0.174.0","typescript":"^5.2.2","vite":"^4.4.11","yaml":"^2.7.0"}}
+{
+  "name": "trae-game",
+  "version": "1.0.0",
+  "description": "A client-server game with Node.js backend and HTML5 frontend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "go": "^3.0.1",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
