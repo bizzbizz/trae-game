@@ -1,0 +1,11 @@
+name: "Basic Economy"
+icon: "💰"
+resources:
+  - name: "Wood"
+    icon: "🪵"
+  - name: "Stone"
+    icon: "🪨"
+  - name: "Gold"
+    icon: "💰"
+  - name: "Food"
+    icon: "🍖"

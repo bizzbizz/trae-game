@@ -2,20 +2,22 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
-	"traegame/backend"
+	t "traegame/backend/types"
 )
 
-func main() {
-	provider := backend.NewFakeWorldProvider()
-	var world *backend.World
+// todo concurrency
+var world *t.World
+var turn int
 
+func main() {
 	// Handle world generation API endpoint
-	http.HandleFunc("/api/generate-world", func(w http.ResponseWriter, r *http.Request) {
-		world := provider.GenerateWorld(800, 600, 5, 2)
+	http.HandleFunc("/api/reset-world", func(w http.ResponseWriter, r *http.Request) {
+		// Remove the := which was creating a new local variable
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(world)
+		json.NewEncoder(w).Encode(t.WorldMapTemplate)
 	})
 
 	// Add next turn endpoint
@@ -26,18 +28,23 @@ func main() {
 		}
 
 		if world == nil {
-			world = provider.GenerateWorld(800, 600, 5, 2)
+			// todo make copy for user and cache it
+			world = &t.World{
+				Turn:     0,
+				WorldMap: t.WorldMapTemplate,
+			}
+		}
+
+		for i := 0; i < len(t.Users); i++ {
+			user := &t.Users[i]
+			if user.IsActive {
+				user.Perform()
+			}
 		}
 
 		// Increment turn counter
 		world.Turn++
-
-		// Toggle phase between "movement" and "combat"
-		if world.Phase == "movement" {
-			world.Phase = "combat"
-		} else {
-			world.Phase = "movement"
-		}
+		fmt.Println("Turn: ", world.Turn)
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(world)

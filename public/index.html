@@ -163,9 +163,9 @@
         // let players = {};
 
         // Add this function to fetch the world
-        async function generateWorld() {
+        async function resetWorld() {
             try {
-                const response = await fetch('/api/generate-world');
+                const response = await fetch('/api/reset-world');
                 const world = await response.json();
                 gameState = { world };
                 updateGameStateTree(gameState, gameMechanics);
@@ -174,8 +174,8 @@
             }
         }
 
-        // Call generateWorld when the page loads
-        window.addEventListener('load', generateWorld);
+        // Call resetWorld when the page loads
+        window.addEventListener('load', resetWorld);
 
         function createTreeNode(key, value, path = '') {
             const nodeDiv = document.createElement('div');
@@ -311,7 +311,7 @@
 
         // Initialize the game
         window.addEventListener('load', async () => {
-            await generateWorld();
+            await resetWorld();
             gameLoop();  // Start the render loop after world is generated
         });
 
@@ -412,19 +412,22 @@
 
         // Update click handler to only handle canvas rendering
         window.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // Find the zone that contains the clicked coordinates
-            const clickedZone = Object.values(gameState.world.zones).find(zone => 
-                x >= zone.x && x <= zone.x + zone.width &&
-                y >= zone.y && y <= zone.y + zone.height
-            );
-
-            if (clickedZone) {
-                console.log('Clicked zone:', clickedZone.name);
-            }
+            // Update click handler to check for world existence
+            window.addEventListener('click', (e) => {
+                if (!gameState.world || !gameState.world.zones) return;
+            
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+            
+                const clickedZone = Object.values(gameState.world.zones).find(zone => 
+                    renderer.isPointInZone(x, y, zone)
+                );
+            
+                if (clickedZone) {
+                    console.log('Clicked zone:', clickedZone.name);
+                }
+            });
         });
 
         // Update Next Turn button to use HTTP endpoint instead of WebSocket
