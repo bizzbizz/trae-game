@@ -1,0 +1,19 @@
+- id: "territory_1"
+  name: "Commercial District"
+  controlled_by: null
+  zones: ["zone_1"]
+
+- id: "territory_2"
+  name: "Living Quarter"
+  controlled_by: null
+  zones: ["zone_2"]
+
+- id: "territory_3"
+  name: "Industrial Zone"
+  controlled_by: null
+  zones: ["zone_3"]
+
+- id: "territory_4"
+  name: "Recreation Area"
+  controlled_by: null
+  zones: ["zone_4"]

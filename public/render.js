@@ -66,3 +66,5 @@ class GameRenderer {
                y >= zone.y && y <= zone.y + zone.height;
     }
 }
+
+export default GameRenderer;
