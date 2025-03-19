@@ -3,16 +3,15 @@ package types
 var SocietyTemplate = *loadConfig[Society]()
 
 type Society struct {
-	Hobbies []Hobby
-	Needs   []string
-	Perks   []string
-	Buffs   []string
+	Hobbies []Hobby  `yaml:"hobbies"`
+	Needs   []string `yaml:"needs"`
+	Perks   []string `yaml:"perks"`
+	Buffs   []string `yaml:"buffs"`
 }
 
 type Hobby struct {
-	ID         string
-	Icon       string
-	Name       string
-	SkillBonus map[string]float32
-	Effects    map[Effect]float32
+	HobbyId `yaml:"id"`
+	Icon    string            `yaml:"icon"`
+	Name    string            `yaml:"name"`
+	Effects map[string]Effect `yaml:"effects"`
 }

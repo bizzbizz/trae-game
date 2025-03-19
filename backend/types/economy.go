@@ -3,63 +3,60 @@ package types
 var EconomyTemplate = *loadConfig[Economy]()
 
 type Economy struct {
-	Businesses         []Business
-	ResourceCategories []ResourceCategory
+	Businesses         []Business         `yaml:"businesses"`
+	ResourceCategories []ResourceCategory `yaml:"resource_categories"`
 }
 
 type Business struct {
-	Name         string `yaml:"name"`
-	Icon         string `yaml:"icon"`
-	Description  string `yaml:"description"`
-	CanBeHobby   bool   `yaml:"canBeHobby"`
-	Requirements []ProductionFlowBatchInput
-	Productions  []Production
+	BusinessId   `yaml:"id"`
+	Icon         string                     `yaml:"icon"`
+	Description  string                     `yaml:"description"`
+	CanBeHobby   bool                       `yaml:"can_be_hobby"`
+	Requirements []ProductionFlowBatchInput `yaml:"requirements"`
+	Productions  []Production               `yaml:"productions"`
 }
 
 type ResourceCategory struct {
-	Name      string `yaml:"name"`
-	Icon      string `yaml:"icon"`
-	Resources []Resource
+	ResourceCategoryId `yaml:"id"`
+	Icon               string     `yaml:"icon"`
+	Resources          []Resource `yaml:"resources"`
 }
 
 type Resource struct {
-	Name       string `yaml:"name"`
+	ResourceID `yaml:"id"`
 	Icon       string `yaml:"icon"`
-	CategoryId string
+	CategoryId string `yaml:"category_id"`
 }
 
 type Production struct {
-	Name              string `yaml:"name"`
-	Icon              string
-	ZoneTypeBonus     map[string]float32 // Zero or positive. Effectiveness of a zone type for this production.
-	SkillBonus        map[string]float32 // Zero or positive. Effectiveness of a skill for this production.
-	SkillUpgradeBonus map[string]float32 // Zero or positive. How fast of a skill upgrades in this production.
-	Flows             map[string]ProductionFlow
+	ProductionId     `yaml:"id"`
+	Icon             string            `yaml:"icon"`
+	UserSkillEffects []UserSkillEffect `yaml:"user_skill_effects"`
+	Flows            []ProductionFlow  `yaml:"flows"`
 }
 
 type ProductionFlow struct {
-	Name      string
-	MaxPeople int
-	Input     []ProductionFlowBatchInput `yaml:"input_list"`
-	Catalysts []ProductionFlowBatchCatalyst
-	Output    []ProductionFlowBatch `yaml:"output_list"`
+	ProductionFlowId `yaml:"id"`
+	MaxPeople        int                           `yaml:"max_people"`
+	Input            []ProductionFlowBatchInput    `yaml:"input"`
+	Catalysts        []ProductionFlowBatchCatalyst `yaml:"catalysts"`
+	Output           []ProductionFlowBatch         `yaml:"output"`
 }
 
-type ResourceID string
 type ProductionFlowBatch struct {
-	ResourceID    ResourceID
-	AmountPerTurn float32 // Always positive or zero. Indicates how much input or catalys is used, or how much output is created.
+	ResourceID    `yaml:"id"`
+	AmountPerTurn float32 `yaml:"amount_per_turn"`
 }
 
 type ProductionFlowBatchInput struct {
-	ProductionFlowBatch
-	IsConsumed bool
+	ProductionFlowBatch `yaml:",inline"`
+	IsConsumed          bool `yaml:"is_consumed"`
 }
 
 type ProductionFlowBatchCatalyst struct {
-	ProductionFlowBatchInput
-	OutputMultiplier map[string]float32 // Always positive. Indicates how much each output is multiplied by, if this resource is available.
-	OutputAdd        map[string]float32 // Always positive. Indicates how much each output is added by, if this resource is available.
-	InputMultiplier  map[string]float32 // Always positive. Indicates how much each input is multiplied by, if this resource is available.
-	InputSubtract    map[string]float32 // Always positive. Indicates how much each input is subtracted by, if this resource is available.
+	ProductionFlowBatchInput `yaml:",inline"`
+	OutputMultiplier         map[string]float32 `yaml:"output_multiplier"`
+	OutputAdd                map[string]float32 `yaml:"output_add"`
+	InputMultiplier          map[string]float32 `yaml:"input_multiplier"`
+	InputSubtract            map[string]float32 `yaml:"input_subtract"`
 }

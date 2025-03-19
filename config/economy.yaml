@@ -1,11 +1,52 @@
-name: "Basic Economy"
-icon: "💰"
-resources:
-  - name: "Wood"
-    icon: "🪵"
-  - name: "Stone"
-    icon: "🪨"
-  - name: "Gold"
-    icon: "💰"
-  - name: "Food"
-    icon: "🍖"
+businesses:
+  - id: "business_1"
+    icon: "🏪"
+    description: "General Store"
+    can_be_hobby: true
+    requirements: []
+    productions:
+      - id: "prod_1"
+        icon: "💰"
+        user_skill_effects:
+          - id: "effect_1"
+            amount_per_turn: 0.1
+            skill_id: "trading"
+          - id: "effect_2"
+            amount_per_turn: 0.2
+            skill_id: "negotiation"
+        flows:
+          - id: "flow_1"
+            max_people: 2
+            input:
+              - id: "res_1"
+                amount_per_turn: 10
+                is_consumed: true
+            catalysts:
+              - id: "res_2"
+                amount_per_turn: 5
+                is_consumed: false
+                output_multiplier:
+                  res_3: 1.2
+                output_add:
+                  res_3: 2
+                input_multiplier:
+                  res_1: 0.8
+                input_subtract:
+                  res_1: 1
+            output:
+              - id: "res_3"
+                amount_per_turn: 8
+
+resource_categories:
+  - id: "cat_1"
+    icon: "📦"
+    resources:
+      - id: "res_1"
+        icon: "🪵"
+        category_id: "cat_1"
+      - id: "res_2"
+        icon: "⚙️"
+        category_id: "cat_1"
+      - id: "res_3"
+        icon: "📦"
+        category_id: "cat_1"

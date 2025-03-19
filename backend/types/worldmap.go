@@ -1,8 +1,8 @@
 package types
 
 type WorldMap struct {
-	Zones       []Zone
-	Territories []Territory
+	Zones       []Zone      `yaml:"zones"`
+	Territories []Territory `yaml:"territories"`
 }
 
 var WorldMapTemplate = WorldMap{
@@ -11,14 +11,14 @@ var WorldMapTemplate = WorldMap{
 }
 
 type Zone struct {
-	ID        string   `json:"id"`
-	Name      string   `json:"name"`
-	Type      string   `json:"type"`
-	X         float64  `json:"x"`
-	Y         float64  `json:"y"`
-	Width     float64  `json:"width"`
-	Height    float64  `json:"height"`
-	PlayerIDs []string `json:"player_ids"`
+	ID        string   `yaml:"id"`
+	Name      string   `yaml:"name"`
+	Type      string   `yaml:"type"`
+	X         float64  `yaml:"x"`
+	Y         float64  `yaml:"y"`
+	Width     float64  `yaml:"width"`
+	Height    float64  `yaml:"height"`
+	PlayerIDs []string `yaml:"player_ids"`
 }
 
 var ZoneTypes = []string{
@@ -32,8 +32,8 @@ var ZoneTypes = []string{
 }
 
 type Territory struct {
-	ID           string   `json:"id"`
-	Name         string   `json:"name"`
-	ControlledBy *string  `json:"controlledBy"`
-	Zones        []string `json:"zones"`
+	ID           string   `yaml:"id"`
+	Name         string   `yaml:"name"`
+	ControlledBy *string  `yaml:"controlled_by"`
+	Zones        []string `yaml:"zones"`
 }

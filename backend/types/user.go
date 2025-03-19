@@ -9,28 +9,21 @@ var Users = append(player_list, npc_list...)
 var player_list = []User{alice, bob, charlie}
 var npc_list = []User{zombies, survivors, bandits}
 
-var alice = User{ID: uuid.New(), Name: "Alice", IsActive: true}
-var bob = User{ID: uuid.New(), Name: "Bob", IsActive: false}
-var charlie = User{ID: uuid.New(), Name: "Charlie", IsActive: true}
-var bandits = User{ID: uuid.New(), Name: "Bandits", IsActive: true}
-var survivors = User{ID: uuid.New(), Name: "Survivors", IsActive: true}
-var zombies = User{ID: uuid.New(), Name: "Zombies", IsActive: true}
+var alice = User{UserID: UserID(uuid.New()), UserName: "Alice", IsActive: true}
+var bob = User{UserID: UserID(uuid.New()), UserName: "Bob", IsActive: false}
+var charlie = User{UserID: UserID(uuid.New()), UserName: "Charlie", IsActive: true}
+var bandits = User{UserID: UserID(uuid.New()), UserName: "Bandits", IsActive: true}
+var survivors = User{UserID: UserID(uuid.New()), UserName: "Survivors", IsActive: true}
+var zombies = User{UserID: UserID(uuid.New()), UserName: "Zombies", IsActive: true}
 
 type User struct {
-	ID       uuid.UUID `json:"id"`
-	Name     string    `json:"name"`
-	IsActive bool
-	Economy  UserEconomy
-}
-
-func (s *User) Perform() {
-	// for i := range s.Economy.UnlockedFlows {
-	// 	var flowId = s.Economy.UnlockedFlows[i]
-	// 	//todo complete
-	// }
+	UserID   `yaml:"id"`
+	UserName `yaml:"name"`
+	IsActive bool `yaml:"is_active"`
+	UserEconomy
 }
 
 type UserEconomy struct {
-	Resources     map[string]float64
-	UnlockedFlows []string
+	UserEconomyResources `yaml:"resources"`
+	UserEconomyFlows     `yaml:"unlocked_flows"`
 }

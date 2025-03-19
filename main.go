@@ -10,7 +10,6 @@ import (
 
 // todo concurrency
 var world *t.World
-var turn int
 
 func main() {
 	// Handle world generation API endpoint
@@ -32,13 +31,16 @@ func main() {
 			world = &t.World{
 				Turn:     0,
 				WorldMap: t.WorldMapTemplate,
+				Users:    t.Users,
+				Economy:  t.EconomyTemplate,
+				Society:  t.SocietyTemplate,
 			}
 		}
 
 		for i := 0; i < len(t.Users); i++ {
 			user := &t.Users[i]
 			if user.IsActive {
-				user.Perform()
+				//user.Perform()
 			}
 		}
 

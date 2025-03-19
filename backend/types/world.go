@@ -11,11 +11,11 @@ import (
 )
 
 type World struct {
-	WorldMap WorldMap
-	Turn     int
-	Users    []User
-	Economy  Economy
-	Society  Society
+	WorldMap
+	Turn  int
+	Users []User
+	Economy
+	Society
 }
 
 func CreateWorld() *World {
