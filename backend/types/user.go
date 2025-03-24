@@ -17,13 +17,13 @@ var survivors = User{UserID: UserID(uuid.New()), UserName: "Survivors", IsActive
 var zombies = User{UserID: UserID(uuid.New()), UserName: "Zombies", IsActive: true}
 
 type User struct {
-	UserID   `yaml:"id"`
-	UserName `yaml:"name"`
-	IsActive bool `yaml:"is_active"`
-	UserEconomy
+	UserID      `yaml:"id"`
+	UserName    `yaml:"name"`
+	IsActive    bool `yaml:"is_active"`
+	UserEconomy UserEconomy
 }
 
 type UserEconomy struct {
-	UserEconomyResources `yaml:"resources"`
-	UserEconomyFlows     `yaml:"unlocked_flows"`
+	UserEconomyResources UserEconomyResources `yaml:"resources"`
+	UserEconomyFlows     UserEconomyFlows     `yaml:"unlocked_flows"`
 }

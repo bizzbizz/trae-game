@@ -1,10 +1,15 @@
+import { World } from "./types/world";
+
 class TreeView {
+    private expandedNodes: Set<string>;
+    private currentTab: 'world' | 'gameMechanics';
+
     constructor() {
         this.expandedNodes = new Set();
-        this.currentTab = 'gameState';
+        this.currentTab = 'world';
     }
 
-    createTreeNode(key, value, path = '') {
+    private createTreeNode(key: string, value: any, path: string = ''): HTMLDivElement {
         const nodeDiv = document.createElement('div');
         nodeDiv.className = 'tree-node';
         
@@ -24,10 +29,10 @@ class TreeView {
         contentDiv.appendChild(expander);
         
         const label = document.createElement('span');
-        label.style.display = "flex";
-        label.style.flexDirection = "column"; 
+        label.style.display = 'flex';
+        label.style.flexDirection = 'column'; 
 
-        if (isExpandable && value.name && value.id) {
+        if (isExpandable && 'name' in value && 'id' in value) {
             const nameSpan = document.createElement('span');
             nameSpan.textContent = value.name;
             
@@ -74,18 +79,19 @@ class TreeView {
         return nodeDiv;
     }
 
-    updateGameStateTree(gameState, gameMechanics) {
+    updateGameStateTree(world: World): void {
+        console.log('updateGameStateTree');
         const treeContent = document.getElementById('treeContent');
+        if (!treeContent) return;
+        
         treeContent.innerHTML = '';
         
-        if (this.currentTab === 'gameState') {
-            treeContent.appendChild(this.createTreeNode('gameState', gameState));
-        } else {
-            treeContent.appendChild(this.createTreeNode('gameMechanics', gameMechanics));
+        if (this.currentTab === 'world') {
+            treeContent.appendChild(this.createTreeNode('world', world));
         }
     }
 
-    setCurrentTab(tab) {
+    setCurrentTab(tab: 'world' | 'gameMechanics'): void {
         this.currentTab = tab;
     }
 }
