@@ -11,14 +11,13 @@ var WorldMapTemplate = WorldMap{
 }
 
 type Zone struct {
-	ID        string   `yaml:"id"`
-	Name      string   `yaml:"name"`
-	Type      string   `yaml:"type"`
-	X         float64  `yaml:"x"`
-	Y         float64  `yaml:"y"`
-	Width     float64  `yaml:"width"`
-	Height    float64  `yaml:"height"`
-	PlayerIDs []string `yaml:"player_ids"`
+	ID                string     `yaml:"id"`
+	Name              string     `yaml:"name"`
+	Type              string     `yaml:"type"`
+	PlayerIDs         []UserName `yaml:"player_ids"`
+	InitialBusinessID BusinessId `yaml:"initial_business_id"`
+	Business          `yaml:",inline"`
+	Polygon           `yaml:",inline"`
 }
 
 var ZoneTypes = []string{
@@ -36,4 +35,11 @@ type Territory struct {
 	Name         string   `yaml:"name"`
 	ControlledBy *string  `yaml:"controlled_by"`
 	Zones        []string `yaml:"zones"`
+}
+
+type Polygon struct {
+	X      float64 `yaml:"x"`
+	Y      float64 `yaml:"y"`
+	Width  float64 `yaml:"width"`
+	Height float64 `yaml:"height"`
 }

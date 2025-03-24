@@ -1,0 +1,4 @@
+export interface {{.ModelName}} {
+{{range .Fields}}    {{.Name}}: {{.TSType}};
+{{end}}
+}

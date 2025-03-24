@@ -1,0 +1,12 @@
+package {{.PackageName}}
+
+// {{.ModelName}} represents a generated model
+type {{.ModelName}} struct {
+{{range .Fields}}	{{.Name}} {{.Type}}
+{{end}}
+}
+
+// New{{.ModelName}} creates a new instance of {{.ModelName}}
+func New{{.ModelName}}() *{{.ModelName}} {
+	return &{{.ModelName}}{}
+}
