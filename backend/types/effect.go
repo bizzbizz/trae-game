@@ -1,25 +1,25 @@
 package types
 
 type Effect struct {
-	AmountPerTurn float32 `yaml:"amount_per_turn"`
+	AmountPerTurn float32 `yaml:"AmountPerTurn"`
 }
 
 type UserSkillEffect struct {
 	Effect      `yaml:",inline"`
-	UserSkillID `yaml:"skill_id"`
+	UserSkillID `yaml:"SkillId"`
 }
 
 type UserStatEffect struct {
 	Effect     `yaml:",inline"`
-	UserStatID `yaml:"stat_id"`
+	UserStatID `yaml:"StatId"`
 }
 
 type TerritoryStatEffect struct {
 	Effect          `yaml:",inline"`
-	TerritoryStatID `yaml:"territory_stat_id"`
+	TerritoryStatID `yaml:"TerritoryStatId"`
 }
 
 type ZoneStatEffect struct {
 	Effect     `yaml:",inline"`
-	ZoneStatID `yaml:"zone_stat_id"`
+	ZoneStatID `yaml:"ZoneStatId"`
 }

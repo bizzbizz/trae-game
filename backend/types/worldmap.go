@@ -1,8 +1,8 @@
 package types
 
 type WorldMap struct {
-	Zones       []Zone      `yaml:"zones"`
-	Territories []Territory `yaml:"territories"`
+	Zones       []Zone      `yaml:"Zones"`
+	Territories []Territory `yaml:"Territories"`
 }
 
 var WorldMapTemplate = WorldMap{
@@ -11,11 +11,11 @@ var WorldMapTemplate = WorldMap{
 }
 
 type Zone struct {
-	ID                string     `yaml:"id"`
-	Name              string     `yaml:"name"`
-	Type              string     `yaml:"type"`
-	PlayerIDs         []UserName `yaml:"player_ids"`
-	InitialBusinessID BusinessId `yaml:"initial_business_id"`
+	ID                string     `yaml:"ID"`
+	Name              string     `yaml:"Name"`
+	Type              string     `yaml:"Type"`
+	PlayerIDs         []UserName `yaml:"PlayerIDs"`
+	InitialBusinessID BusinessId `yaml:"InitialBusinessID"`
 	Business          `yaml:",inline"`
 	Polygon           `yaml:",inline"`
 }
@@ -31,15 +31,15 @@ var ZoneTypes = []string{
 }
 
 type Territory struct {
-	ID           string   `yaml:"id"`
-	Name         string   `yaml:"name"`
-	ControlledBy *string  `yaml:"controlled_by"`
-	Zones        []string `yaml:"zones"`
+	ID           string   `yaml:"ID"`
+	Name         string   `yaml:"Name"`
+	ControlledBy *string  `yaml:"ControlledBy"`
+	Zones        []string `yaml:"Zones"`
 }
 
 type Polygon struct {
-	X      float64 `yaml:"x"`
-	Y      float64 `yaml:"y"`
-	Width  float64 `yaml:"width"`
-	Height float64 `yaml:"height"`
+	X      float64 `yaml:"X"`
+	Y      float64 `yaml:"Y"`
+	Width  float64 `yaml:"Width"`
+	Height float64 `yaml:"Height"`
 }
