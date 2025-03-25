@@ -1,52 +1,48 @@
-businesses:
-  - id: "business_1"
-    icon: "🏪"
-    description: "General Store"
-    can_be_hobby: true
-    requirements: []
-    productions:
-      - id: "prod_1"
-        icon: "💰"
-        user_skill_effects:
-          - id: "effect_1"
-            amount_per_turn: 0.1
-            skill_id: "trading"
-          - id: "effect_2"
-            amount_per_turn: 0.2
-            skill_id: "negotiation"
-        flows:
-          - id: "flow_1"
-            max_people: 2
-            input:
-              - id: "res_1"
-                amount_per_turn: 10
-                is_consumed: true
-            catalysts:
-              - id: "res_2"
-                amount_per_turn: 5
-                is_consumed: false
-                output_multiplier:
-                  res_3: 1.2
-                output_add:
-                  res_3: 2
-                input_multiplier:
-                  res_1: 0.8
-                input_subtract:
-                  res_1: 1
-            output:
-              - id: "res_3"
-                amount_per_turn: 8
+Businesses:
+  - Id: "farm"
+    Icon: "🌾"
+    Description: "A place to grow crops"
+    CanBeHobby: true
+    Requirements:
+      - Id: "seeds"
+        AmountPerTurn: 1.0
+        IsConsumed: true
+      - Id: "water"
+        AmountPerTurn: 2.0
+        IsConsumed: true
+    Productions:
+      - Id: "farming"
+        Icon: "🚜"
+        UserSkillEffects:
+          - SkillId: "farming"
+            Amount: 1.0
+        Flows:
+          - Id: "basic_farming"
+            MaxPeople: 2
+            Input:
+              - Id: "seeds"
+                AmountPerTurn: 1.0
+                IsConsumed: true
+            Catalysts:
+              - Id: "fertilizer"
+                AmountPerTurn: 0.5
+                IsConsumed: true
+                OutputMultiplier:
+                  crops: 1.5
+            Output:
+              - Id: "crops"
+                AmountPerTurn: 5.0
 
-resource_categories:
-  - id: "cat_1"
-    icon: "📦"
-    resources:
-      - id: "res_1"
-        icon: "🪵"
-        category_id: "cat_1"
-      - id: "res_2"
-        icon: "⚙️"
-        category_id: "cat_1"
-      - id: "res_3"
-        icon: "📦"
-        category_id: "cat_1"
+Resources:
+  - Id: "seeds"
+    Icon: "🌱"
+    Category: "agricultural"
+  - Id: "water"
+    Icon: "💧"
+    Category: "natural"
+  - Id: "crops"
+    Icon: "🌾"
+    Category: "food"
+  - Id: "fertilizer"
+    Icon: "🧪"
+    Category: "agricultural"

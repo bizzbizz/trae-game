@@ -14,9 +14,7 @@ type Zone struct {
 	ID                string     `yaml:"ID"`
 	Name              string     `yaml:"Name"`
 	Type              string     `yaml:"Type"`
-	PlayerIDs         []UserName `yaml:"PlayerIDs"`
 	InitialBusinessID BusinessId `yaml:"InitialBusinessID"`
-	Business          `yaml:",inline"`
 	Polygon           `yaml:",inline"`
 }
 

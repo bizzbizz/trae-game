@@ -1,19 +1,18 @@
-- id: "territory_1"
-  name: "Commercial District"
-  controlled_by: null
-  zones: ["zone_1"]
+- ID: "residential_district"
+  Name: "Green Valley District"
+  ControlledBy: "city_council"
+  Zones:
+    - "residential_1"
+    - "public_1"
 
-- id: "territory_2"
-  name: "Living Quarter"
-  controlled_by: null
-  zones: ["zone_2"]
+- ID: "business_district"
+  Name: "Commerce Square District"
+  ControlledBy: "merchant_guild"
+  Zones:
+    - "commercial_1"
+    - "industrial_1"
 
-- id: "territory_3"
-  name: "Industrial Zone"
-  controlled_by: null
-  zones: ["zone_3"]
-
-- id: "territory_4"
-  name: "Recreation Area"
-  controlled_by: null
-  zones: ["zone_4"]
+- ID: "expansion_zone"
+  Name: "New Development Area"
+  ControlledBy: null
+  Zones: []
