@@ -9,6 +9,7 @@ body {
 
 canvas {
     border: 2px solid #333;
+    margin-top: 25px;
     background-color: white;
     position: relative;
 }
@@ -49,6 +50,7 @@ canvas {
 .game-state-tree {
     min-width: 300px;
     background: #f8f9fa;
+    margin-top: 25px;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);

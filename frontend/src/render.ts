@@ -7,16 +7,16 @@ class GameRenderer {
     private territoryColors: Map<string, string>;
     private resourcePanel: GamePanelResources;
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(world: World, canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
         this.territoryColors = new Map();
-        this.resourcePanel = new GamePanelResources();
+        this.resourcePanel = new GamePanelResources(world);
     }
 
     render(world: World): void {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.resourcePanel.render();
+        this.resourcePanel.render(world);
 
         // Draw territories first (as background)
         if (world && world.WorldMap && world.WorldMap.Territories) {

@@ -1,5 +1,5 @@
 import * as ui from './types/ui';
-import { world } from './game';
+import { World } from './types/world';
 
 export interface GamePopup {
     buttons: ui.GameButton[]
@@ -19,7 +19,7 @@ export class GamePanelResources implements ui.GamePanel {
     buttons: ui.GameButton[] = [];
     private panel: HTMLDivElement;
 
-    constructor() {
+    constructor(world: World) {
         if (world.Economy && world.Economy.Resources) {
             this.buttons = world.Economy.Resources.map(resource => ({
                 emoji: resource.Icon,
@@ -42,7 +42,7 @@ export class GamePanelResources implements ui.GamePanel {
         document.body.appendChild(this.panel);
     }
 
-    render(): void {
+    render(world: World): void {
         if (!world.Economy || !world.Economy.Resources) return;
 
         // Clear existing content

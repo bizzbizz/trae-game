@@ -2,18 +2,12 @@ import TreeView from './tree';
 import GameRenderer from './render';
 import { World, Zone } from './types/world';
 
+export let world: World | undefined;
+let renderer: GameRenderer | undefined;
 const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-const renderer = new GameRenderer(canvas);
 const gameStateTree = document.getElementById('gameStateTree');
 
-export let world: World = {} as World;
-
 const treeView = new TreeView();
-
-function render(): void {
-    renderer.render(world);
-    requestAnimationFrame(render);
-}
 
 window.addEventListener('click', (e: MouseEvent) => {
     if (!world || !world.WorldMap || !world.WorldMap.Zones) return;
@@ -23,7 +17,7 @@ window.addEventListener('click', (e: MouseEvent) => {
     const y = e.clientY - rect.top;
 
     const clickedZone = Object.values(world.WorldMap.Zones).find((zone: Zone) => 
-        renderer.isPointInZone(x, y, zone)
+        renderer?.isPointInZone(x, y, zone)
     );
 
     if (clickedZone) {
@@ -49,7 +43,9 @@ document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.add('active');
         const tabType = (tab as HTMLElement).dataset.tab as 'world' | 'gameMechanics';
         treeView.setCurrentTab(tabType);
-        treeView.updateGameStateTree(world);
+        if(world !== undefined) {
+            treeView.updateGameStateTree(world);
+        }
     });
 });
 
@@ -67,8 +63,14 @@ if (nextTurnButton) {
     });
 }
 
+function render(): void {
+    world && renderer && renderer.render(world);
+    requestAnimationFrame(render);
+}
+
 // Initialize the game
 window.addEventListener('load', async () => {
     await resetWorld();
+    world && (renderer = new GameRenderer(world, canvas));
     render();
 });

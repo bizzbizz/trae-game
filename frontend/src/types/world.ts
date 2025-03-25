@@ -23,7 +23,6 @@ export interface Zone {
     Y: number;
     Width: number;
     Height: number;
-    PlayerIds: string[];
     BusinessId: string;
 }
 
