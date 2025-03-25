@@ -6,9 +6,14 @@ const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 const renderer = new GameRenderer(canvas);
 const gameStateTree = document.getElementById('gameStateTree');
 
-let world: World = {} as World;
+export let world: World = {} as World;
 
 const treeView = new TreeView();
+
+function render(): void {
+    renderer.render(world);
+    requestAnimationFrame(render);
+}
 
 window.addEventListener('click', (e: MouseEvent) => {
     if (!world || !world.WorldMap || !world.WorldMap.Zones) return;
@@ -25,11 +30,6 @@ window.addEventListener('click', (e: MouseEvent) => {
         console.log('Clicked zone:', clickedZone.Name);
     }
 });
-
-function render(): void {
-    renderer.render(world);
-    requestAnimationFrame(render);
-}
 
 async function resetWorld(): Promise<void> {
     try {
