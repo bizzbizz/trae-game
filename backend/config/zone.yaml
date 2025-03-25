@@ -1,35 +1,35 @@
-- id: "zone_1"
-  name: "Market District"
-  type: "shop"
-  x: 100
-  y: 100
-  width: 200
-  height: 150
-  player_ids: []
+- ID: "residential_1"
+  Name: "Peaceful Grove"
+  Type: "house"
+  InitialBusinessID: "home_garden"
+  X: 100.0
+  Y: 100.0
+  Width: 50.0
+  Height: 50.0
 
-- id: "zone_2"
-  name: "Residential Area"
-  type: "house"
-  x: 350
-  y: 100
-  width: 180
-  height: 160
-  player_ids: []
+- ID: "commercial_1"
+  Name: "Market Square"
+  Type: "shop"
+  InitialBusinessID: "general_store"
+  X: 200.0
+  Y: 100.0
+  Width: 75.0
+  Height: 60.0
 
-- id: "zone_3"
-  name: "Industrial Complex"
-  type: "factory"
-  x: 600
-  y: 100
-  width: 250
-  height: 200
-  player_ids: []
+- ID: "industrial_1"
+  Name: "Factory District"
+  Type: "factory"
+  InitialBusinessID: "manufacturing_plant"
+  X: 300.0
+  Y: 200.0
+  Width: 100.0
+  Height: 80.0
 
-- id: "zone_4"
-  name: "Central Park"
-  type: "park"
-  x: 350
-  y: 300
-  width: 200
-  height: 200
-  player_ids: []
+- ID: "public_1"
+  Name: "Central Park"
+  Type: "park"
+  InitialBusinessID: "park_services"
+  X: 150.0
+  Y: 150.0
+  Width: 120.0
+  Height: 120.0
