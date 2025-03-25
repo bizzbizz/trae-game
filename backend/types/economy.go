@@ -3,34 +3,28 @@ package types
 var EconomyTemplate = *loadConfig[Economy]()
 
 type Economy struct {
-	Businesses         []Business         `yaml:"businesses"`
-	ResourceCategories []ResourceCategory `yaml:"resource_categories"`
+	Businesses []Business `yaml:"businesses"`
+	Resources  []Resource `yaml:"resources"`
 }
 
 type Business struct {
 	BusinessId   `yaml:"id"`
-	Icon         string                     `yaml:"icon"`
+	Icon         Icon                       `yaml:"icon"`
 	Description  string                     `yaml:"description"`
 	CanBeHobby   bool                       `yaml:"can_be_hobby"`
 	Requirements []ProductionFlowBatchInput `yaml:"requirements"`
 	Productions  []Production               `yaml:"productions"`
 }
 
-type ResourceCategory struct {
-	ResourceCategoryId `yaml:"id"`
-	Icon               string     `yaml:"icon"`
-	Resources          []Resource `yaml:"resources"`
-}
-
 type Resource struct {
 	ResourceID `yaml:"id"`
-	Icon       string `yaml:"icon"`
-	CategoryId string `yaml:"category_id"`
+	Icon       Icon `yaml:"icon"`
+	Category   Tag  `yaml:"category"`
 }
 
 type Production struct {
 	ProductionId     `yaml:"id"`
-	Icon             string            `yaml:"icon"`
+	Icon             Icon              `yaml:"icon"`
 	UserSkillEffects []UserSkillEffect `yaml:"user_skill_effects"`
 	Flows            []ProductionFlow  `yaml:"flows"`
 }

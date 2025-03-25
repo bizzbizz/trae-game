@@ -1,8 +1,8 @@
 import { UserSkillEffect } from "./effect";
 
 export interface Economy {
-	Businesses:         Business[];
-	ResourceCategories: ResourceCategory[];
+	Businesses: Business[];
+	Resources:  Resource[];
 }
 
 export interface Business {
@@ -17,7 +17,6 @@ export interface Business {
 export interface ResourceCategory {
     CategoryId: string;
     Icon: string;
-    Resources: Resource[];
 }
 
 export interface Resource {

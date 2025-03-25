@@ -2,9 +2,11 @@ package types
 
 import "github.com/google/uuid"
 
+type Icon string
+
 // economy
 type BusinessId string
-type ResourceCategoryId string
+type Tag string
 type ResourceID string
 type ProductionId string
 type ProductionFlowId string
