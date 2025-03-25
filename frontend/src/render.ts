@@ -1,18 +1,22 @@
 import { Territory, World, Zone } from "./types/world";
+import { GamePanelResources } from "./ui";
 
 class GameRenderer {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private territoryColors: Map<string, string>;
+    private resourcePanel: GamePanelResources;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
         this.territoryColors = new Map();
+        this.resourcePanel = new GamePanelResources();
     }
 
     render(world: World): void {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.resourcePanel.render();
 
         // Draw territories first (as background)
         if (world && world.WorldMap && world.WorldMap.Territories) {
