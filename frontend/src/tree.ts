@@ -32,12 +32,12 @@ class TreeView {
         label.style.display = 'flex';
         label.style.flexDirection = 'column'; 
 
-        if (isExpandable && 'name' in value && 'id' in value) {
+        if (isExpandable && 'Name' in value && 'Id' in value) {
             const nameSpan = document.createElement('span');
-            nameSpan.textContent = value.name;
+            nameSpan.textContent = value.Name;
             
             const idSpan = document.createElement('span');
-            idSpan.textContent = value.id;
+            idSpan.textContent = value.Id;
             idSpan.style.color = '#888';
             idSpan.style.fontSize = '0.2em';
             
@@ -55,7 +55,7 @@ class TreeView {
             childrenDiv.style.display = this.expandedNodes.has(nodePath) ? 'block' : 'none';
             
             Object.entries(value).forEach(([childKey, childValue]) => {
-                if(childKey !== 'name' && childKey !== 'id') {
+                if(childKey !== 'Name' && childKey !== 'Id') {
                     childrenDiv.appendChild(this.createTreeNode(childKey, childValue, nodePath));
                 }
             });
