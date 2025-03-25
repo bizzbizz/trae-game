@@ -1,130 +1,130 @@
 body {
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
-    height: 100vh;
-    background-color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  height: 100vh;
+  background-color: #f0f0f0;
 }
 
 canvas {
-    border: 2px solid #333;
-    margin-top: 25px;
-    background-color: white;
-    position: relative;
+  border: 2px solid #333;
+  margin-top: 25px;
+  background-color: white;
+  position: relative;
 }
 
 .next-turn-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    line-height: 1.2;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .next-turn-button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  background-color: #45a049;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .next-turn-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .game-state-tree {
-    min-width: 300px;
-    background: #f8f9fa;
-    margin-top: 25px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
+  min-width: 300px;
+  background: #f8f9fa;
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .tab {
-    padding: 8px 16px;
-    background: #e9ecef;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
+  padding: 8px 16px;
+  background: #e9ecef;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
 .tab.active {
-    background: #4CAF50;
-    color: white;
+  background: #4caf50;
+  color: white;
 }
 
 .tab:hover {
-    background: #dee2e6;
+  background: #dee2e6;
 }
 
 .tab.active:hover {
-    background: #45a049;
+  background: #45a049;
 }
 
 .game-state-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
 }
 
 .tree-node {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .tree-node-content {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    padding: 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 3px 0;
 }
 
 .tree-node-content:hover {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .expander {
-    width: 20px;
-    height: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .tree-children {
-    margin-left: 25px;
+  margin-left: 25px;
 }
