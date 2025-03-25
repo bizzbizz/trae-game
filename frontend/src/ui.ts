@@ -2,71 +2,71 @@ import * as ui from './types/ui';
 import { World } from './types/world';
 
 export interface GamePopup {
-    buttons: ui.GameButton[]
-    onClose: () => void
+  buttons: ui.GameButton[];
+  onClose: () => void;
 }
 
 export class GamePopupResources implements ui.GamePopup {
-    buttons: ui.GameButton[] = [];
-    onClose: () => void;
+  buttons: ui.GameButton[] = [];
+  onClose: () => void;
 
-    constructor(onClose: () => void) {
-        this.onClose = onClose;
-    }
+  constructor(onClose: () => void) {
+    this.onClose = onClose;
+  }
 }
 
 export class GamePanelResources implements ui.GamePanel {
-    buttons: ui.GameButton[] = [];
-    private panel: HTMLDivElement;
+  buttons: ui.GameButton[] = [];
+  private panel: HTMLDivElement;
 
-    constructor(world: World) {
-        if (world.Economy && world.Economy.Resources) {
-            this.buttons = world.Economy.Resources.map(resource => ({
-                emoji: resource.Icon,
-                tooltip: resource.ResourceId,
-                popup: new GamePopupResources(() => {
-                    // Close popup implementation
-                })
-            }));
-        }
-
-        // Create and style the panel
-        this.panel = document.createElement('div');
-        this.panel.style.position = 'fixed';
-        this.panel.style.top = '0';
-        this.panel.style.left = '0';
-        this.panel.style.width = '100%';
-        this.panel.style.padding = '10px';
-        this.panel.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        this.panel.style.color = 'white';
-        document.body.appendChild(this.panel);
+  constructor(world: World) {
+    if (world.Economy && world.Economy.Resources) {
+      this.buttons = world.Economy.Resources.map(resource => ({
+        emoji: resource.Icon,
+        tooltip: resource.ResourceId,
+        popup: new GamePopupResources(() => {
+          // Close popup implementation
+        }),
+      }));
     }
 
-    render(world: World): void {
-        if (!world.Economy || !world.Economy.Resources) return;
+    // Create and style the panel
+    this.panel = document.createElement('div');
+    this.panel.style.position = 'fixed';
+    this.panel.style.top = '0';
+    this.panel.style.left = '0';
+    this.panel.style.width = '100%';
+    this.panel.style.padding = '10px';
+    this.panel.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    this.panel.style.color = 'white';
+    document.body.appendChild(this.panel);
+  }
 
-        // Clear existing content
-        this.panel.innerHTML = '';
+  render(world: World): void {
+    if (!world.Economy || !world.Economy.Resources) return;
 
-        // Create resource display
-        const resourceList = document.createElement('div');
-        resourceList.style.display = 'flex';
-        resourceList.style.gap = '20px';
-        resourceList.style.justifyContent = 'center';
+    // Clear existing content
+    this.panel.innerHTML = '';
 
-        world.Economy.Resources.forEach(resource => {
-            const resourceElement = document.createElement('div');
-            resourceElement.style.display = 'flex';
-            resourceElement.style.alignItems = 'center';
-            resourceElement.style.gap = '5px';
-            
-            const icon = document.createElement('span');
-            icon.textContent = resource.Icon;
-            
-            resourceElement.appendChild(icon);
-            resourceList.appendChild(resourceElement);
-        });
+    // Create resource display
+    const resourceList = document.createElement('div');
+    resourceList.style.display = 'flex';
+    resourceList.style.gap = '20px';
+    resourceList.style.justifyContent = 'center';
 
-        this.panel.appendChild(resourceList);
-    }
+    world.Economy.Resources.forEach(resource => {
+      const resourceElement = document.createElement('div');
+      resourceElement.style.display = 'flex';
+      resourceElement.style.alignItems = 'center';
+      resourceElement.style.gap = '5px';
+
+      const icon = document.createElement('span');
+      icon.textContent = resource.Icon;
+
+      resourceElement.appendChild(icon);
+      resourceList.appendChild(resourceElement);
+    });
+
+    this.panel.appendChild(resourceList);
+  }
 }

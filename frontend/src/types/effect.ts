@@ -1,20 +1,20 @@
 export interface Effect {
-    EffectId: string;
-    AmountPerTurn: number;
+  EffectId: string;
+  AmountPerTurn: number;
 }
 
 export interface UserSkillEffect extends Effect {
-    SkillId: string;
+  SkillId: string;
 }
 
 export interface UserStatEffect extends Effect {
-    StatId: string;
+  StatId: string;
 }
 
 export interface TerritoryStatEffect extends Effect {
-    TerritoryStatId: string;
+  TerritoryStatId: string;
 }
 
 export interface ZoneStatEffect extends Effect {
-    ZoneStatId: string;
+  ZoneStatId: string;
 }

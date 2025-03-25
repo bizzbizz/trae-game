@@ -1,57 +1,57 @@
-import { UserSkillEffect } from "./effect";
+import { UserSkillEffect } from './effect';
 
 export interface Economy {
-	Businesses: Business[];
-	Resources:  Resource[];
+  Businesses: Business[];
+  Resources: Resource[];
 }
 
 export interface Business {
-    BusinessId: string;
-    Icon: string;
-    Description: string;
-    CanBeHobby: boolean;
-    Requirements: ProductionFlowBatchInput[];
-    Productions: Production[];
+  BusinessId: string;
+  Icon: string;
+  Description: string;
+  CanBeHobby: boolean;
+  Requirements: ProductionFlowBatchInput[];
+  Productions: Production[];
 }
 
 export interface ResourceCategory {
-    CategoryId: string;
-    Icon: string;
+  CategoryId: string;
+  Icon: string;
 }
 
 export interface Resource {
-    ResourceId: string;
-    Icon: string;
-    CategoryId: string;
+  ResourceId: string;
+  Icon: string;
+  CategoryId: string;
 }
 
 export interface Production {
-    ProductionId: string;
-    Icon: string;
-    UserSkillEffects: UserSkillEffect[];
-    Flows: ProductionFlow[];
+  ProductionId: string;
+  Icon: string;
+  UserSkillEffects: UserSkillEffect[];
+  Flows: ProductionFlow[];
 }
 
 export interface ProductionFlow {
-    FlowId: string;
-    MaxPeople: number;
-    Input: ProductionFlowBatchInput[];
-    Catalysts: ProductionFlowBatchCatalyst[];
-    Output: ProductionFlowBatch[];
+  FlowId: string;
+  MaxPeople: number;
+  Input: ProductionFlowBatchInput[];
+  Catalysts: ProductionFlowBatchCatalyst[];
+  Output: ProductionFlowBatch[];
 }
 
 export interface ProductionFlowBatch {
-    BatchId: string;
-    AmountPerTurn: number;
+  BatchId: string;
+  AmountPerTurn: number;
 }
 
 export interface ProductionFlowBatchInput extends ProductionFlowBatch {
-    IsConsumed: boolean;
+  IsConsumed: boolean;
 }
 
 export interface ProductionFlowBatchCatalyst extends ProductionFlowBatchInput {
-    OutputMultiplier: Record<string, number>;
-    OutputAdd: Record<string, number>;
-    InputMultiplier: Record<string, number>;
-    InputSubtract: Record<string, number>;
+  OutputMultiplier: Record<string, number>;
+  OutputAdd: Record<string, number>;
+  InputMultiplier: Record<string, number>;
+  InputSubtract: Record<string, number>;
 }
