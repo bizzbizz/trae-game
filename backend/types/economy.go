@@ -3,54 +3,54 @@ package types
 var EconomyTemplate = *loadConfig[Economy]()
 
 type Economy struct {
-	Businesses []Business `yaml:"businesses"`
-	Resources  []Resource `yaml:"resources"`
+	Businesses []Business `yaml:"Businesses"`
+	Resources  []Resource `yaml:"Resources"`
 }
 
 type Business struct {
-	BusinessId   `yaml:"id"`
-	Icon         Icon                       `yaml:"icon"`
-	Description  string                     `yaml:"description"`
-	CanBeHobby   bool                       `yaml:"can_be_hobby"`
-	Requirements []ProductionFlowBatchInput `yaml:"requirements"`
-	Productions  []Production               `yaml:"productions"`
+	BusinessId   `yaml:"Id"`
+	Icon         Icon                       `yaml:"Icon"`
+	Description  string                     `yaml:"Description"`
+	CanBeHobby   bool                       `yaml:"CanBeHobby"`
+	Requirements []ProductionFlowBatchInput `yaml:"Requirements"`
+	Productions  []Production               `yaml:"Productions"`
 }
 
 type Resource struct {
-	ResourceID `yaml:"id"`
-	Icon       Icon `yaml:"icon"`
-	Category   Tag  `yaml:"category"`
+	ResourceID `yaml:"Id"`
+	Icon       Icon `yaml:"Icon"`
+	Category   Tag  `yaml:"Category"`
 }
 
 type Production struct {
-	ProductionId     `yaml:"id"`
-	Icon             Icon              `yaml:"icon"`
-	UserSkillEffects []UserSkillEffect `yaml:"user_skill_effects"`
-	Flows            []ProductionFlow  `yaml:"flows"`
+	ProductionId     `yaml:"Id"`
+	Icon             Icon              `yaml:"Icon"`
+	UserSkillEffects []UserSkillEffect `yaml:"UserSkillEffects"`
+	Flows            []ProductionFlow  `yaml:"Flows"`
 }
 
 type ProductionFlow struct {
-	ProductionFlowId `yaml:"id"`
-	MaxPeople        int                           `yaml:"max_people"`
-	Input            []ProductionFlowBatchInput    `yaml:"input"`
-	Catalysts        []ProductionFlowBatchCatalyst `yaml:"catalysts"`
-	Output           []ProductionFlowBatch         `yaml:"output"`
+	ProductionFlowId `yaml:"Id"`
+	MaxPeople        int                           `yaml:"MaxPeople"`
+	Input            []ProductionFlowBatchInput    `yaml:"Input"`
+	Catalysts        []ProductionFlowBatchCatalyst `yaml:"Catalysts"`
+	Output           []ProductionFlowBatch         `yaml:"Output"`
 }
 
 type ProductionFlowBatch struct {
-	ResourceID    `yaml:"id"`
-	AmountPerTurn float32 `yaml:"amount_per_turn"`
+	ResourceID    `yaml:"Id"`
+	AmountPerTurn float32 `yaml:"AmountPerTurn"`
 }
 
 type ProductionFlowBatchInput struct {
 	ProductionFlowBatch `yaml:",inline"`
-	IsConsumed          bool `yaml:"is_consumed"`
+	IsConsumed          bool `yaml:"IsConsumed"`
 }
 
 type ProductionFlowBatchCatalyst struct {
 	ProductionFlowBatchInput `yaml:",inline"`
-	OutputMultiplier         map[string]float32 `yaml:"output_multiplier"`
-	OutputAdd                map[string]float32 `yaml:"output_add"`
-	InputMultiplier          map[string]float32 `yaml:"input_multiplier"`
-	InputSubtract            map[string]float32 `yaml:"input_subtract"`
+	OutputMultiplier         map[string]float32 `yaml:"OutputMultiplier"`
+	OutputAdd                map[string]float32 `yaml:"OutputAdd"`
+	InputMultiplier          map[string]float32 `yaml:"InputMultiplier"`
+	InputSubtract            map[string]float32 `yaml:"InputSubtract"`
 }
