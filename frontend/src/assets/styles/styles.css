@@ -128,3 +128,25 @@ canvas {
 .tree-children {
   margin-left: 25px;
 }
+
+.resources-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.resources-list {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

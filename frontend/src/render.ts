@@ -1,5 +1,5 @@
 import { Territory, World, Zone } from './types/world';
-import { GamePanelResources } from './ui';
+import { GamePanelResources } from './components/GamePanel';
 
 class GameRenderer {
   private canvas: HTMLCanvasElement;

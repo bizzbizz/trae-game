@@ -1,21 +1,14 @@
-export interface GamePopup {
-  buttons: GameButton[];
-  onClose: () => void;
-}
+import * as ui from './GamePopup';
 
 export interface GameButton {
   emoji: string;
   tooltip: string;
-  popup?: GamePopup;
+  popup?: ui.GamePopup;
   onClick?: () => void;
   size?: {
     width: number;
     height: number;
   };
-}
-
-export interface GamePanel {
-  buttons: GameButton[];
 }
 
 // Default button size constants
