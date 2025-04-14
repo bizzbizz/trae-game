@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(WorldGenerator))]
+[CustomEditor(typeof(WorldManager))]
 public class WorldGeneratorEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -11,10 +11,16 @@ public class WorldGeneratorEditor : Editor
         DrawDefaultInspector();
 
         // Add a button
-        WorldGenerator worldGenerator = (WorldGenerator)target;
+        WorldManager world = (WorldManager)target;
         if (GUILayout.Button("Click Me", GUILayout.Height(40)))
         {
-            worldGenerator.Generate();
+            world.ResetWorld();
+        }
+
+        // Show a warning if the bool is true
+        if (!world.LoadFromCache)
+        {
+            EditorGUILayout.HelpBox("Warning: 'LoadFromCache' is disabled! It will call OSM.", MessageType.Warning);
         }
     }
 }

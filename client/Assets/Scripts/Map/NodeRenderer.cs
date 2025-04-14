@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[DisallowMultipleComponent]
 public class NodeRenderer : MonoBehaviour
 {
     private MeshFilter meshFilter;
@@ -27,18 +28,18 @@ public class NodeRenderer : MonoBehaviour
         DrawNodes();
     }
     public Material baseMaterial;
-   // public Material hoverMaterial;
+    // public Material hoverMaterial;
     //public Material selectedMaterial;
     private void Initialize()
     {
-       /* // Setup materials
-        baseMaterial = meshRenderer.material;
-        hoverMaterial = new Material(baseMaterial);
-        selectedMaterial = new Material(baseMaterial);
+        /* // Setup materials
+         baseMaterial = meshRenderer.material;
+         hoverMaterial = new Material(baseMaterial);
+         selectedMaterial = new Material(baseMaterial);
 
-        hoverMaterial.color = new Color(1.2f, 1.2f, 1.2f, 1f);  // Brighter
-        selectedMaterial.color = new Color(1.5f, 1.5f, 1.5f, 1f);  // Even brighter
-       */
+         hoverMaterial.color = new Color(1.2f, 1.2f, 1.2f, 1f);  // Brighter
+         selectedMaterial.color = new Color(1.5f, 1.5f, 1.5f, 1f);  // Even brighter
+        */
         meshCollider = GetComponent<MeshCollider>();
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();

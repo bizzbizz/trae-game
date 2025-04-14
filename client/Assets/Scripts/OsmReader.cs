@@ -44,21 +44,30 @@ public class OsmReader
     }
 }
 
-public class Node
+[System.Serializable]
+public class Element
 {
+    public long id;
     public string type;
     public float lat;
     public float lon;
-    public Tags tags;
 }
 [System.Serializable]
 public class Tags
 {
     public string name;
 }
-
+[System.Serializable]
+public class Osm3s
+{
+    public string timestamp_osm_base;
+    public string copyright;
+}
 [System.Serializable]
 public class OverpassResponse
 {
-    public Node[] elements;
+    public float version;
+    public string generator;
+    public Osm3s osm3s;
+    public Element[] elements;
 }

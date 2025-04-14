@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
     [Header("Scene References")]
