@@ -1,5 +1,10 @@
 import { World } from './types/world';
 
+interface NamedEntity {
+  Name: string;
+  Id: string;
+}
+
 class TreeView {
   private expandedNodes: Set<string>;
   private currentTab: 'world' | 'gameMechanics';
@@ -9,7 +14,7 @@ class TreeView {
     this.currentTab = 'world';
   }
 
-  private createTreeNode(key: string, value: any, path: string = ''): HTMLDivElement {
+  private createTreeNode(key: string, value: unknown, path: string = ''): HTMLDivElement {
     const nodeDiv = document.createElement('div');
     nodeDiv.className = 'tree-node';
 
@@ -32,7 +37,7 @@ class TreeView {
     label.style.display = 'flex';
     label.style.flexDirection = 'column';
 
-    if (isExpandable && 'Name' in value && 'Id' in value) {
+    if (isExpandable && this.isNamedEntity(value)) {
       const nameSpan = document.createElement('span');
       nameSpan.textContent = value.Name;
 
@@ -54,7 +59,7 @@ class TreeView {
       childrenDiv.className = 'tree-children';
       childrenDiv.style.display = this.expandedNodes.has(nodePath) ? 'block' : 'none';
 
-      Object.entries(value).forEach(([childKey, childValue]) => {
+      Object.entries(value as Record<string, unknown>).forEach(([childKey, childValue]) => {
         if (childKey !== 'Name' && childKey !== 'Id') {
           childrenDiv.appendChild(this.createTreeNode(childKey, childValue, nodePath));
         }
@@ -77,6 +82,10 @@ class TreeView {
     }
 
     return nodeDiv;
+  }
+
+  private isNamedEntity(value: unknown): value is NamedEntity {
+    return typeof value === 'object' && value !== null && 'Name' in value && 'Id' in value;
   }
 
   updateGameStateTree(world: World): void {

@@ -43,6 +43,7 @@ export class GamePanelResources implements GamePanel {
       const resourceElement = document.createElement('button');
       resourceElement.className = 'resource-item';
       resourceElement.onclick = () => {
+        console.log('Resource clicked:', resource);
         resource.popup?.Open();
       };
 

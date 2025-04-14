@@ -5,19 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplayer Game</title>
     <link rel="icon" type="image/png" href="src/assets/images/favicon.png">
-    <link rel="stylesheet" href="src/assets/styles/styles.css">
 </head>
 <body>
-    <div class="game-state-tree" id="gameStateTree">
-        <div class="tabs">
-            <button class="tab active" data-tab="gameState">Game State</button>
-            <button class="tab" data-tab="gameMechanics">Game Mechanics</button>
-        </div>
-        <div id="treeContent"></div>
-    </div>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <button class="next-turn-button" id="nextTurnButton">Next<br>Turn</button>
-    <script src="src/render.ts" type="module"></script>
-    <script src="src/game.ts" type="module"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

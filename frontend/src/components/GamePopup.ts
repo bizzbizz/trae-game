@@ -1,18 +1,18 @@
 import { Resource } from '../types/economy';
 import { GameButton } from './GameButton';
 
-export let ActivePopup: GamePopup | undefined;
-
 export class GamePopup {
   buttons: GameButton[] = [];
   isOpen: boolean = false;
+  static ActivePopup: GamePopup | undefined;
+
   Open() {
     this.isOpen = true;
-    ActivePopup = this;
+    GamePopup.ActivePopup = this;
   }
   Close() {
     this.isOpen = false;
-    ActivePopup = undefined;
+    GamePopup.ActivePopup = undefined;
   }
 }
 
