@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 [DisallowMultipleComponent]
 public class NodeRenderer : MonoBehaviour
@@ -10,21 +11,38 @@ public class NodeRenderer : MonoBehaviour
     private Mesh mesh;
     private List<Vector3> vertices;
     private List<int> triangles;
-    private List<PolygonNode> nodes;
+    private BaseNode node;
 
     void Awake()
     {
-        Initialize();
-        DrawNodes();
+        //Initialize();
+        //DrawNodes();
     }
     private void Update()
     {
         HandleNodeInteraction();
         UpdateNodeMaterials();
     }
-    public void GenerateNodes()
+    public void GenerateNodes(NodeType type, IEnumerable<Element> osmNodes)
     {
         Initialize();
+    
+        if (osmNodes == null || !osmNodes.Any())
+        {
+            Debug.LogWarning("No OSM nodes provided to generate");
+            gameObject.SetActive(false);
+            return;
+        }
+    
+        var validNodes = osmNodes.Where(x => x != null && x.lat != 0 && x.lon != 0);
+        if (!validNodes.Any())
+        {
+            Debug.LogWarning("No valid OSM nodes found");
+            gameObject.SetActive(false);
+            return;
+        }
+    
+        node = new PolygonNode(validNodes.Select(x => new Vector3(x.lat, 0, x.lon)).ToArray());
         DrawNodes();
     }
     public Material baseMaterial;
@@ -52,24 +70,19 @@ public class NodeRenderer : MonoBehaviour
 
         vertices = new List<Vector3>();
         triangles = new List<int>();
-        nodes = new List<PolygonNode>();
     }
 
     private void DrawNodes()
     {
         vertices.Clear();
         triangles.Clear();
-        nodes.Clear();
 
-        // Create sample nodes with different shapes
-        nodes.Add(new PolygonNode(new Vector3(-2, 0, 0), 4));  // Square
-        nodes.Add(new PolygonNode(new Vector3(0, 0, 0), 6));   // Hexagon
-        nodes.Add(new PolygonNode(new Vector3(2, 0, 0), 8));   // Octagon
+        //// Create sample nodes with different shapes
+        //nodes.Add(new PolygonNode(new Vector3(-2, 0, 0), 4));  // Square
+        //nodes.Add(new PolygonNode(new Vector3(0, 0, 0), 6));   // Hexagon
+        //nodes.Add(new PolygonNode(new Vector3(2, 0, 0), 8));   // Octagon
 
-        foreach (var node in nodes)
-        {
-            CreateNodePolygon(node);
-        }
+        CreateNode(node);
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
@@ -80,7 +93,63 @@ public class NodeRenderer : MonoBehaviour
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    private void CreateNodePolygon(PolygonNode node)
+    private void CreateNode(BaseNode node)
+    {
+        switch (node.NodeType)
+        {
+            case NodeType.Polygon: CreateNode(node as PolygonNode); break;
+            case NodeType.UniformPolygon: CreateNode(node as UniformPolygonNode); break;
+        }
+    }
+    private void CreateNode(PolygonNode node)
+    {
+        int vertexOffset = vertices.Count;
+
+        // Add bottom vertices
+        foreach (Vector3 point in node.Positions)
+        {
+            vertices.Add(point);
+        }
+
+        // Add top vertices
+        foreach (Vector3 point in node.Positions)
+        {
+            vertices.Add(new Vector3(point.x, node.Height, point.z));
+        }
+
+        int pointCount = node.Positions.Length;
+
+        // Create side triangles
+        for (int i = 0; i < pointCount; i++)
+        {
+            int next = (i + 1) % pointCount;
+
+            // First triangle of the side
+            triangles.AddRange(new int[] {
+            vertexOffset + i,
+            vertexOffset + i + pointCount,
+            vertexOffset + next
+        });
+
+            // Second triangle of the side
+            triangles.AddRange(new int[] {
+            vertexOffset + next,
+            vertexOffset + i + pointCount,
+            vertexOffset + next + pointCount
+        });
+        }
+
+        // Add top face (triangulate the polygon)
+        for (int i = 2; i < pointCount; i++)
+        {
+            triangles.AddRange(new int[] {
+            vertexOffset + pointCount,
+            vertexOffset + pointCount + i,
+            vertexOffset + pointCount + (i - 1)
+        });
+        }
+    }
+    private void CreateNode(UniformPolygonNode node)
     {
         int vertexOffset = vertices.Count;
 
@@ -146,59 +215,38 @@ public class NodeRenderer : MonoBehaviour
 
     private void HandleNodeInteraction()
     {
+        if(node == null)
+        {
+            Debug.Log("node is not found");
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Reset hover states
-        foreach (PolygonNode node in nodes)
-        {
-            node.IsHovered = false;
-        }
+        node.IsHovered = false;
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Find closest node to hit point
-            PolygonNode closestNode = FindClosestNode(hit.point);
-            if (closestNode != null && Vector3.Distance(hit.point, closestNode.Position) < closestNode.Radius)
+            //if ( Vector3.Distance(hit.point, node.Position) < closestNode.Radius)
             {
-                closestNode.IsHovered = true;
+                node.IsHovered = true;
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    closestNode.IsSelected = !closestNode.IsSelected;
+                    node.IsSelected = !node.IsSelected;
                 }
             }
         }
-    }
-
-    private PolygonNode FindClosestNode(Vector3 point)
-    {
-        PolygonNode closest = null;
-        float minDistance = float.MaxValue;
-
-        foreach (PolygonNode node in nodes)
-        {
-            float distance = Vector3.Distance(point, node.Position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closest = node;
-            }
-        }
-
-        return closest;
     }
 
     private void UpdateNodeMaterials()
     {
         bool needsRedraw = false;
 
-        foreach (PolygonNode node in nodes)
+        if (node.IsHovered || node.IsSelected)
         {
-            if (node.IsHovered || node.IsSelected)
-            {
-                needsRedraw = true;
-                break;
-            }
+            needsRedraw = true;
         }
 
         if (needsRedraw)

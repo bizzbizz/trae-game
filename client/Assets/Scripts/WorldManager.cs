@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class WorldManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class WorldManager : MonoBehaviour
 
     [SerializeField] private Ground groundPrefab;
     [SerializeField] private GameObject housePrefab;
+    private GameObject mapNodes;
 
     public static WorldManager Instance { get; private set; }
 
@@ -67,12 +69,21 @@ public class WorldManager : MonoBehaviour
                 Debug.Log("Nothing to display");
             }
 
-            foreach (var node in objects.elements)
+            if (mapNodes is not null)
             {
-                Vector3 position = GeoToUnityPosition(node.lat, node.lon, latitude, longitude);
-                var houseObject = Instantiate(housePrefab);
+                DestroyImmediate(mapNodes);
+            }
+
+            mapNodes = new GameObject("nodes");
+            mapNodes.transform.SetParent(transform);
+
+            foreach (var element in objects.elements)
+            {
+                Vector3 position = GeoToUnityPosition(element.lat, element.lon, latitude, longitude);
+                var houseObject = Instantiate(housePrefab, mapNodes.transform);
                 houseObject.transform.position = position;
-                houseObject.GetComponent<NodeRenderer>().GenerateNodes();
+                var nodes = objects.elements.Where(x => x.type == "node" && (element.nodes?.Contains(x.id) ?? false));
+                houseObject.GetComponent<NodeRenderer>().GenerateNodes(NodeType.Polygon, nodes);
             }
 
         }

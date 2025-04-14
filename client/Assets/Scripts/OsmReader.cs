@@ -32,7 +32,24 @@ public class OsmReader
 
     private string GenerateOverpassQuery(float lat, float lon, float radius)
     {
-        return $"[out:json];node(around:{radius},{lat},{lon});out;";
+        // return $"[out:json];node(around:{radius},{lat},{lon});out;";
+/*        return $@"[out:json];
+    (
+      node(around:{radius},{lat},{lon});
+      way(around:{radius},{lat},{lon});
+      relation(around:{radius},{lat},{lon});
+    );
+    out body;
+    >;
+    out skel qt;";
+    }*/
+        return $@"[out:json];
+(
+    way(around:{radius},{lat},{lon});
+    >;  // Get all nodes that are part of the ways
+    node(around:{radius},{lat},{lon});
+);
+out body;";
     }
 
     internal OverpassResponse LoadFromFile()
@@ -51,11 +68,26 @@ public class Element
     public string type;
     public float lat;
     public float lon;
+    public long[] nodes;  // For ways
+    public Tags tags;
+    public Member[] members;  // For relations
 }
+
+[System.Serializable]
+public class Member
+{
+    public string type;
+    public long ref_id;
+    public string role;
+}
+
 [System.Serializable]
 public class Tags
 {
     public string name;
+    public string highway;    // For roads
+    public string building;   // For buildings
+    public string amenity;    // For amenities
 }
 [System.Serializable]
 public class Osm3s
