@@ -23,26 +23,30 @@ public class NodeRenderer : MonoBehaviour
         HandleNodeInteraction();
         UpdateNodeMaterials();
     }
-    public void GenerateNodes(NodeType type, IEnumerable<Element> osmNodes)
+    public void GenerateShapes(NodeType type, Element osmShape, Dictionary<long, Element> elements)
     {
         Initialize();
     
-        if (osmNodes == null || !osmNodes.Any())
+        if (osmShape == null || !osmShape.nodes.Any())
         {
-            Debug.LogWarning("No OSM nodes provided to generate");
+            Debug.LogWarning("No OSM shapes provided to generate");
             gameObject.SetActive(false);
             return;
         }
-    
-        var validNodes = osmNodes.Where(x => x != null && x.lat != 0 && x.lon != 0);
+
+        var validNodes = osmShape.nodes
+                                 .Select(x => elements.TryGetValue(x, out var node) ? node : null)
+                                 .Where(x => x is not null)
+                                 .ToArray();
+
         if (!validNodes.Any())
         {
-            Debug.LogWarning("No valid OSM nodes found");
+            Debug.LogWarning("No valid OSM shapes found");
             gameObject.SetActive(false);
             return;
         }
-    
-        node = new PolygonNode(validNodes.Select(x => new Vector3(x.lat, 0, x.lon)).ToArray());
+
+        node = new PolygonNode(validNodes.Select(OsmUtils.ConvertGeoToUnityPosition).ToArray());
         DrawNodes();
     }
     public Material baseMaterial;

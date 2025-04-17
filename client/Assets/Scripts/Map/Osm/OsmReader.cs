@@ -29,33 +29,65 @@ public class OsmReader
         // parse
         return JsonUtility.FromJson<OverpassResponse>(jsonString);
     }
-
+    public static string GenerateOverpassQuery(MapBounds mapBounds)
+    {
+        const string baseUrl1 = "[out:json];(node({0},{1},{2},{3});way({0},{1},{2},{3});rel({0},{1},{2},{3}););out geom;";
+        string url = string.Format(baseUrl1, mapBounds.minLat, mapBounds.minLon, mapBounds.maxLat, mapBounds.maxLon);
+        return url;
+    }
     private string GenerateOverpassQuery(float lat, float lon, float radius)
     {
-        // return $"[out:json];node(around:{radius},{lat},{lon});out;";
-/*        return $@"[out:json];
-    (
-      node(around:{radius},{lat},{lon});
-      way(around:{radius},{lat},{lon});
-      relation(around:{radius},{lat},{lon});
-    );
-    out body;
-    >;
-    out skel qt;";
-    }*/
-        return $@"[out:json];
-(
-    way(around:{radius},{lat},{lon});
-    >;  // Get all nodes that are part of the ways
-    node(around:{radius},{lat},{lon});
-);
-out body;";
+        return q2();
+
+#pragma warning disable CS8321 // Local function is declared but never used
+        string q1() =>
+            $@"[out:json];
+            (
+                way(around:{radius},{lat},{lon});
+                >;
+            );
+            out body;";
+
+        string q2() =>
+            $@"[out:json];
+            (
+                way(around:{radius},{lat},{lon});
+                >;
+                node(around:{radius},{lat},{lon});
+            );
+            out body;";
+
+        string geom() =>
+    $@"[out:json];
+            (
+                way(around:{radius},{lat},{lon});
+                >;
+                node(around:{radius},{lat},{lon});
+            );
+            out geom;";
+
+        string q3() =>
+            $"[out:json];node(around:{radius},{lat},{lon});out;";
+
+        string q4() =>
+            $@"[out:json];
+            (
+                node(around:{radius},{lat},{lon});
+                way(around:{radius},{lat},{lon});
+                relation(around:{radius},{lat},{lon});
+            );
+            out body;
+            >;
+            out skel qt;";
+#pragma warning restore CS8321 // Local function is declared but never used
     }
 
     internal OverpassResponse LoadFromFile()
     {
         string path = Path.Combine(Application.persistentDataPath, "osm_data.json");
+        Debug.Log($"reading from file: {path}");
         var jsonString = File.ReadAllText(path);
+        Debug.Log($"file has {jsonString.Length} length");
 
         return JsonUtility.FromJson<OverpassResponse>(jsonString);
     }

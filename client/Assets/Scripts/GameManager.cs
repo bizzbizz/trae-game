@@ -42,28 +42,4 @@ public class GameManager : MonoBehaviour
             clickController = clickControllerObject.AddComponent<ClickController>();
         }
     }
-
-    public void ResetWorld()
-    {
-        if (worldManager != null)
-        {
-            worldManager.ResetWorld();
-        }
-        else
-        {
-            Debug.LogError("WorldManager is not initialized");
-        }
-    }
-
-    public void NextTurn()
-    {
-        if (worldManager != null)
-        {
-            worldManager.NextTurn();
-        }
-        else
-        {
-            Debug.LogError("WorldManager is not initialized");
-        }
-    }
 }

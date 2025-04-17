@@ -2,15 +2,27 @@ using UnityEngine;
 
 public class UiEventHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void ResetWorld()
     {
-        
+        if (WorldManager.main != null)
+        {
+            WorldManager.main.ResetWorld();
+        }
+        else
+        {
+            Debug.LogError("WorldManager is not initialized");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextTurn()
     {
-        
+        if (WorldManager.main != null)
+        {
+            StartCoroutine(WorldManager.main.NextTurnCoroutine());
+        }
+        else
+        {
+            Debug.LogError("WorldManager is not initialized");
+        }
     }
 }

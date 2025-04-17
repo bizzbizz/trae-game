@@ -7,6 +7,8 @@ using System.Linq;
 
 public class WorldManager : MonoBehaviour
 {
+    public static WorldManager main { get; private set; }
+
     private const string BaseUrl = "http://localhost:8080/api";
 
     private OsmReader osmReader;
@@ -19,9 +21,7 @@ public class WorldManager : MonoBehaviour
 
     [SerializeField] private Ground groundPrefab;
     [SerializeField] private GameObject housePrefab;
-    private GameObject mapNodes;
-
-    public static WorldManager Instance { get; private set; }
+    private GameObject mapParent;
 
     private Vector3 GeoToUnityPosition(float lat, float lon, float originLat, float originLon)
     {
@@ -33,9 +33,9 @@ public class WorldManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (main == null)
         {
-            Instance = this;
+            main = this;
             DontDestroyOnLoad(gameObject);
 
             // Create ground if not present
@@ -51,49 +51,77 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    public async void ResetWorld()
+    public void ResetWorld()
     {
+        if (mapParent is not null)
+        {
+            DestroyImmediate(mapParent);
+        }
+
+        if (osmReader is null)
+        {
+            osmReader = new OsmReader();
+        }
+
         if (IsMapEditor)
         {
-            if (osmReader is null)
-            {
-                osmReader = new OsmReader();
-            }
-
-            OverpassResponse objects = LoadFromCache ?
-                osmReader.LoadFromFile()
-                : await osmReader.ReadDataAsync(latitude, longitude, radius);
-
-            if (objects is null)
-            {
-                Debug.Log("Nothing to display");
-            }
-
-            if (mapNodes is not null)
-            {
-                DestroyImmediate(mapNodes);
-            }
-
-            mapNodes = new GameObject("nodes");
-            mapNodes.transform.SetParent(transform);
-
-            foreach (var element in objects.elements)
-            {
-                Vector3 position = GeoToUnityPosition(element.lat, element.lon, latitude, longitude);
-                var houseObject = Instantiate(housePrefab, mapNodes.transform);
-                houseObject.transform.position = position;
-                var nodes = objects.elements.Where(x => x.type == "node" && (element.nodes?.Contains(x.id) ?? false));
-                houseObject.GetComponent<NodeRenderer>().GenerateNodes(NodeType.Polygon, nodes);
-            }
-
+            StartCoroutine(ResetWorldFromClientCoroutine());
         }
         else
         {
-            StartCoroutine(ResetWorldCoroutine());
+            StartCoroutine(ResetWorldFromServerCoroutine());
         }
     }
 
-    private IEnumerator ResetWorldCoroutine()
+    private IEnumerator ResetWorldFromClientCoroutine()
+    {
+        OverpassResponse objects;
+        if (LoadFromCache)
+        {
+            objects = osmReader.LoadFromFile();
+        }
+        else
+        {
+            var task = osmReader.ReadDataAsync(latitude, longitude, radius);
+
+            yield return new WaitUntil(() => task.IsCompleted);
+
+            if (task.Exception != null)
+            {
+                Debug.LogError(task.Exception);
+                yield break;
+            }
+
+            objects = task.Result;
+        }
+
+        if (objects is null || objects.elements is null || !objects.elements.Any())
+        {
+            Debug.LogWarning($"Nothing to display: '{objects}' '{objects.elements}'");
+            yield break;
+        }
+
+        Debug.Log($"response has {objects.elements.Length} elements");
+
+        mapParent = new GameObject("nodes");
+        mapParent.transform.SetParent(transform);
+
+        var shapes = objects.elements
+                .Where(x => x.type == "way" && (x.nodes?.Any() ?? false))
+                .ToArray();
+
+        foreach (var shape in shapes)
+        {
+            Vector3 position = GeoToUnityPosition(shape.lat, shape.lon, latitude, longitude);
+            var houseObject = Instantiate(housePrefab, mapParent.transform);
+            houseObject.transform.position = position;
+
+            houseObject.GetComponent<NodeRenderer>().GenerateShapes(NodeType.Polygon, shape, objects.elements.ToDictionary(x => x.id));
+        }
+
+    }
+
+    private IEnumerator ResetWorldFromServerCoroutine()
     {
         using UnityWebRequest request = UnityWebRequest.Get($"{BaseUrl}/reset-world");
         yield return request.SendWebRequest();
@@ -111,12 +139,7 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    public void NextTurn()
-    {
-        StartCoroutine(NextTurnCoroutine());
-    }
-
-    private IEnumerator NextTurnCoroutine()
+    public IEnumerator NextTurnCoroutine()
     {
         using UnityWebRequest request = UnityWebRequest.Post($"{BaseUrl}/next-turn", new WWWForm());
         yield return request.SendWebRequest();
